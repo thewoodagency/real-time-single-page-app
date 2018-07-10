@@ -9,6 +9,11 @@ use App\Http\Resources\QuestionResource;
 
 class QuestionController extends Controller
 {
+    public function __construct()
+    {
+        //$this->middleware('auth:api', ['except' => ['login', 'signup']]);
+        $this->middleware('JWT', ['except' => ['index', 'show']]);
+    }
     /**
      * Display a listing of the resource.
      *
