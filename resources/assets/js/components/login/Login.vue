@@ -1,10 +1,10 @@
 <template>
     <v-container>
-        <v-form v-model="valid">
+        <v-form>
             <v-text-field
                     v-model="form.email"
                     type="email"
-                    label="Email"
+                    label="Your Email"
                     required
             ></v-text-field>
             <v-text-field
@@ -14,19 +14,25 @@
                     required
             ></v-text-field>
         </v-form>
-        <v-btn type="submit" color="green">Login</v-btn>
+        <v-btn type="submit" color="green" @click="login">Login</v-btn>
     </v-container>
 </template>
 
 <script>
+    import User from '../../Helper/User';
+
     export default {
-        name: "Login",
         data() {
             return {
                 form: {
-                    email: null,
-                    password: null
+                    email: 'hamill.reggie@example.org',
+                    password: 'secret'
                 }
+            }
+        },
+        methods: {
+            login() {
+                User.login(this.form);
             }
         }
     }
