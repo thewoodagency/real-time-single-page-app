@@ -10,13 +10,21 @@ require('./bootstrap');
 window.Vue = require('vue');
 import Vue from 'vue';
 import Vuetify from 'vuetify';
-import router from './Router/router';
-
 Vue.use(Vuetify);
 
+import VueSimplemde from 'vue-simplemde';
+Vue.use(VueSimplemde);
+import md from 'marked';
+window.md = md;
+
+import VueResource from 'vue-resource';
+Vue.use(VueResource);
+window.EventBus = new Vue();
+
+import router from './Router/router';
 import User from './Helper/User';
-//window.User = User;
-console.log(User.id());
+window.User = User;  // User can be accessed from the entire Vue app.
+console.log(User.loggedIn());
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -25,7 +33,7 @@ console.log(User.id());
  */
 
 //Vue.component('example-component', require('./components/ExampleComponent.vue'));
-    Vue.component('AppHome', require('./components/AppHome.vue'));
+Vue.component('AppHome', require('./components/AppHome.vue'));
 
 const app = new Vue({
     el: '#app',

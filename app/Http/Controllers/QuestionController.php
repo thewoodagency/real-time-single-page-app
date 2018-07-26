@@ -47,11 +47,10 @@ class QuestionController extends Controller
         $question->slug = $request->slug;
         $question->save();*/
 
-        Question::create($request->all());
-
-        //auth()->user()->question()->create($request->all());
-
-        return response('Created', Response::HTTP_CREATED);
+        //$request['slug'] = str_slug($request->title);
+        //Question::create($request->all());
+        $question = auth()->user()->question()->create($request->all());
+        return response(new QuestionResource($question), Response::HTTP_CREATED);
     }
 
     /**

@@ -15,24 +15,29 @@
             ></v-text-field>
         </v-form>
         <v-btn type="submit" color="green" @click="login">Login</v-btn>
+        <v-btn flat><router-link to="/signup">Signup</router-link></v-btn>
     </v-container>
 </template>
 
 <script>
-    import User from '../../Helper/User';
-
     export default {
+        beforeMount() {
+            if (User.loggedIn()) {
+                this.$router.push({name: 'forum'});
+            }
+        },
         data() {
             return {
                 form: {
                     email: 'hamill.reggie@example.org',
                     password: 'secret'
-                }
+                },
             }
         },
         methods: {
             login() {
                 User.login(this.form);
+                window.location = '/forum';
             }
         }
     }

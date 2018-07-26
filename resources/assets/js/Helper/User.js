@@ -10,12 +10,27 @@ class User {
         axios.post('/api/auth/login', form)
             .then(res => {
                 console.log(res.data);
-                let {access_token, user} = res.data;
-                if (Token.isValid(access_token)) {
-                    AppStorage.store(access_token, user);
-                }
+                this.responseAfterLogin(res);
             })
             .catch(error => console.log(error.response.data));
+    }
+
+    signup(form) {
+        axios.post('/api/auth/signup', form)
+            .then(res => {
+                console.log(res.data);
+                this.responseAfterLogin(res);
+            })
+            .catch(error => {
+                return error.response.data
+            });
+    }
+
+    responseAfterLogin(res) {
+        let {access_token, user} = res.data;
+        if (Token.isValid(access_token)) {
+            AppStorage.store(access_token, user);
+        }
     }
 
     hasToken() {
@@ -33,6 +48,7 @@ class User {
 
     logout() {
         AppStorage.clear();
+        window.location = '/forum';
     }
 
     name() {
@@ -46,6 +62,10 @@ class User {
             const payload = Token.decode(AppStorage.getToken());
             return payload.sub;
         }
+    }
+
+    own(id) {
+        return this.id() == id;
     }
 }
 
