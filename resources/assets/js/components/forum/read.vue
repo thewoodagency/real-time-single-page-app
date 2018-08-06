@@ -13,7 +13,7 @@
                                 <div class="grey--text">Posted by {{ question.user }} {{ question.created_at }}</div>
                             </div>
                             <v-spacer></v-spacer>
-                            <v-btn color="teal" v-if="reply.length > 0">{{ reply.length }} Replies</v-btn>
+                            <v-btn color="teal" v-if="question.reply_count > 0" dark>{{ question.reply_count }} Replies</v-btn>
                         </v-card-title>
 
                         <v-card-text v-html="body"></v-card-text>
@@ -27,6 +27,10 @@
                         </v-card-actions>
                     </v-card>
                 </v-container>
+                <v-container>
+                    <reply :replies="replies"></reply>
+                    <newreply :question="question"></newreply>
+                </v-container>
             </div>
         </div>
     </div>
@@ -34,18 +38,23 @@
 
 <script>
     import edit from './edit';
+    import reply from '../reply/replies';
+    import newreply from '../reply/newReply';
 
     export default {
         name: "read",
         data() {
             return {
                 question: null,
-                reply: [],
-                editing: false
+                //reply: [],
+                editing: false,
+                replies: {}
             }
         },
         components: {
-            edit
+            edit,
+            reply,
+            newreply
         },
         methods: {
             deleteQuestion() {
@@ -62,15 +71,22 @@
                 });
                 EventBus.$on('cancelEdit', () => {
                     this.editing = false;
+                });
+                EventBus.$on('deleteReply', (index) => {
+                    console.log('index', index);
+                    //this.replies.splice(index, 1);
+                    axios.delete(`/api/question/${this.$route.params.slug}/reply/${index}`)
+                        .then(res => this.getQuestion());
                 })
             },
             getQuestion() {
                 //console.log(this.$route.params);
                 axios.get(`/api/question/${this.$route.params.slug}`)
                     .then(res => this.question = res.data.data);
+
                 axios.get(`/api/question/${this.$route.params.slug}/reply`)
-                    .then(res => this.reply = res.data.data);
-            }
+                    .then(res => this.replies = res.data.data);
+            },
         },
         computed: {
             body() {
@@ -84,7 +100,7 @@
         created() {
             this.listen();
             this.getQuestion();
-        }
+        },
     }
 </script>
 

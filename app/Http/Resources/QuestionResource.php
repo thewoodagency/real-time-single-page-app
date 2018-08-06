@@ -17,12 +17,15 @@ class QuestionResource extends JsonResource
         //return parent::toArray($request);
         return [
             'title' => $this->title,
+            'replies' => $this->replies,
+            'reply_count' => $this->replies->count(),
             'slug' => $this->slug,
             'path' => $this->path,
             'body' => $this->body,
             'created_at' => $this->created_at->diffForHumans(),
             'user' => $this->user->name,
-            'user_id' => $this->user->id
+            'user_id' => $this->user->id,
+            'id' => $this->id
         ];
     }
 }

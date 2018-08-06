@@ -11,6 +11,8 @@ class Question extends Model
 
     //protected $guarded = []; nothing is guarded.
 
+    //protected $with = ['replies'];
+
     protected static function boot()
     {
         parent::boot();
@@ -31,7 +33,7 @@ class Question extends Model
 
     public function replies()
     {
-        return $this->hasMany(Reply::class);
+        return $this->hasMany(Reply::class)->latest();
     }
 
     public function category()

@@ -1,6 +1,6 @@
 <template>
     <div>
-    <v-card>
+    <v-card class="mt-2">
         <v-card-title primary-title>
             <div>
                 <h3 class="headline mb-0">
@@ -9,6 +9,8 @@
                     </router-link>
                 </h3>
                 <div class="grey--text">Posted by {{ data.user }} {{ data.created_at }}</div>
+                <v-btn color="teal" dark>{{ data.reply_count }} Replies</v-btn>
+
             </div>
         </v-card-title>
 
@@ -30,5 +32,7 @@
 </script>
 
 <style scoped>
-
+    .v-card {
+        margin-bottom:10px
+    }
 </style>

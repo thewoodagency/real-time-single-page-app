@@ -13,7 +13,7 @@ import AppForum from '../components/AppForum';
 import User from '../Helper/User';
 import Read from '../components/forum/read';
 import Create from '../components/forum/create';
-import Category from '../components/forum/category';
+import Category from '../components/forum/category/create';
 
 const routes = [
     { path: '/login', component: Login },
